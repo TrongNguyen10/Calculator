@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="result" id="result">
+
+        </div>
+        <div class="action-container">
+            <div class="numbers">
+                <button onclick="numberClick('1')">1</button>
+                <button onclick="numberClick('2')">2</button>
+                <button onclick="numberClick('3')">3</button>
+
+                <button onclick="numberClick('4')">4</button>
+                <button onclick="numberClick('5')">5</button>
+                <button onclick="numberClick('6')">6</button>
+
+                <button onclick="numberClick('7')">7</button>
+                <button onclick="numberClick('8')">8</button>
+                <button onclick="numberClick('9')">9</button>
+
+                <button onclick="actionClick('c')">C</button>
+                <button onclick="numberClick('0')">0</button>
+                <button onclick="actionClick('=')">=</button>
+            </div>
+            <div class="actions">
+                <button onclick="actionClick('+')">+</button>
+                <button onclick="actionClick('-')">-</button>
+                <button onclick="actionClick('*')">*</button>
+                <button onclick="actionClick('/')">/</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const result = document.getElementById("result")
+        // so cuoi cung de tinh    
+        let numberHover = "";
+
+        let choTinh = 0;
+
+        let ketqua = 0;
+        
+        // bam vao 1 so
+        function numberClick(number){
+            numberHover = numberHover + number;
+            choTinh = parseFloat(numberHover)
+
+            printResult(numberHover)
+        }
+        // in ket qua
+        function printResult(val){
+            result.innerHTML = val
+        }
+
+        function resetHover(){
+            numberHover = ""
+            choTinh = 0
+        }
+
+        let hoverAction = ""
+
+        function actionClick(action){
+            switch(action){
+                case "+":
+                    hoverAction = action;
+                    actionResult(hoverAction);
+                    break;                
+                case "-":
+                    hoverAction = action;
+                    ketqua = choTinh;
+                    //resetHover();
+                    actionResult(hoverAction);
+                    break;
+                case "*":
+                    hoverAction = action;
+                    
+                    actionResult(hoverAction);
+                    break;
+                case "/":
+                
+                    hoverAction = action;
+                    
+                    actionResult(hoverAction);
+                    
+                    break;
+                case "=":
+                    hoverAction = action;
+                    actionResult(hoverAction);
+                    break;
+                case "c":
+                    ketqua = 0;
+                    resetHover();
+                    printResult("");
+                    break;
+            }
+        }
+
+        function actionResult(action){
+            switch(action){
+                case "+":
+                    ketqua = ketqua + choTinh;
+                    break;
+                case "-":
+                    ketqua = ketqua - choTinh; 
+                    break;
+                case "*":
+                    ketqua = ketqua * choTinh;
+                    break;
+                case "/":
+                    ketqua = ketqua / choTinh;
+                    break;
+            }
+            resetHover()
+            hoverAction = ""
+                    
+            printResult(String(ketqua))
+        }
+    </script>
+</body>
+
+</html>
