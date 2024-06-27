@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    
+
     <div class="container">
         <div class="result" id="result">
 
@@ -43,87 +43,71 @@
 
     <script>
         const result = document.getElementById("result")
-        // so cuoi cung de tinh    
+        // numberHover - save the calculation as string    
         let numberHover = "";
+        // array contain main calculation
+        let pheptinh = []
 
-        let choTinh = 0;
-
-        let ketqua = 0;
-        
+        let calculations = ['*', '/', '-', '+']
         // bam vao 1 so
-        function numberClick(number){
+        function numberClick(number) {
             numberHover = numberHover + number;
-            choTinh = parseFloat(numberHover)
-
             printResult(numberHover)
         }
         // in ket qua
-        function printResult(val){
+        function printResult(val) {
             result.innerHTML = val
         }
 
-        function resetHover(){
+        function resetHover() {
             numberHover = ""
-            choTinh = 0
+        }
+        //calc theo thu tu * / - +
+        function calc(action) {
+            while (pheptinh.includes(action)) {
+                var i = pheptinh.indexOf(action);
+                pheptinh[i - 1] = actionResult(action, parseFloat(pheptinh[i - 1]), parseFloat(pheptinh[i + 1]));
+                pheptinh.splice(i, 2);
+            }
         }
 
-        let hoverAction = ""
-
-        function actionClick(action){
-            switch(action){
-                case "+":
-                    hoverAction = action;
-                    actionResult(hoverAction);
-                    break;                
-                case "-":
-                    hoverAction = action;
-                    ketqua = choTinh;
-                    //resetHover();
-                    actionResult(hoverAction);
-                    break;
-                case "*":
-                    hoverAction = action;
-                    
-                    actionResult(hoverAction);
-                    break;
-                case "/":
-                
-                    hoverAction = action;
-                    
-                    actionResult(hoverAction);
-                    
-                    break;
+        function actionClick(action) {
+            pheptinh = numberHover.split(' ')
+            // phan biet so am va so duong
+            if(action == '-' && !isFinite(parseFloat(pheptinh[pheptinh.length-1]))){
+                numberHover += action
+            }else{
+                numberHover += ' ' + action + ' '
+            }            
+            printResult(numberHover)
+            switch (action) {
                 case "=":
-                    hoverAction = action;
-                    actionResult(hoverAction);
+                    calculations.forEach(calc)
+                    numberHover = pheptinh[0].toString()
+                    printResult(numberHover)
                     break;
                 case "c":
-                    ketqua = 0;
                     resetHover();
                     printResult("");
                     break;
             }
         }
 
-        function actionResult(action){
-            switch(action){
-                case "+":
-                    ketqua = ketqua + choTinh;
+        function actionResult(action, a, b) {
+            switch (action) {
+                case '+':
+                    return a + b;
                     break;
-                case "-":
-                    ketqua = ketqua - choTinh; 
+                case '-':
+                    return a - b;
                     break;
-                case "*":
-                    ketqua = ketqua * choTinh;
+                case '*':
+                    return a * b;
                     break;
-                case "/":
-                    ketqua = ketqua / choTinh;
+                case '/':
+                    return a / b;
                     break;
             }
-            resetHover()
-            hoverAction = ""
-                    
-            printResult(String(ketqua))
         }
     </script>
 </body>
